@@ -1,0 +1,55 @@
+/* src/App.module.css */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: #f5f5f0;
+  overflow: hidden;
+}
+
+.editor {
+  /* 縦書き設定 */
+  /* -webkit-writing-mode: vertical-rl; <-- 反転バグの原因になるため削除しました */
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+
+  /* フォント設定：美しい明朝体を指定 */
+  font-family: 'Yu Mincho', 'YuMincho', 'Noto Serif CJK JP', serif;
+
+  /* 【重要】美しさの魔法 */
+  /* "palt": 文字の余白を自動で詰める（プロポーショナルメトリクス） */
+  font-feature-settings: 'palt';
+
+  /* 文字サイズと行間のバランス */
+  font-size: 22px;
+  line-height: 1.8;
+  letter-spacing: 0.05em;
+
+  /* 禁則処理（句読点のぶら下がりや追い出し） */
+  line-break: strict;
+  word-break: break-all;
+
+  /* 記号や約物の表示調整 */
+  white-space: pre-wrap;
+
+  /* エディタとしてのサイズ設定 */
+  height: 85vh;
+  /* widthは固定せず、入力に応じて横に伸びるようにする */
+  min-width: 600px;
+  padding: 3rem;
+
+  /* 見た目の調整 */
+  border: none;
+  outline: none;
+  resize: none;
+  background-color: transparent;
+
+  /* 横スクロールのみ許可 */
+  overflow-y: hidden;
+  overflow-x: auto;
+
+  /* カーソルなど */
+  cursor: text;
+}
