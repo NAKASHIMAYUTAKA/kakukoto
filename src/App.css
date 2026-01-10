@@ -1,0 +1,78 @@
+/* =========================================
+   Modern Minimal Reset (アプリ開発用)
+   ========================================= */
+
+/* 1. 全ての要素のサイズ計算を「枠線込み」にする（超重要） */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* 2. デフォルトの余白を消す */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+ul,
+ol,
+li,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+  padding: 0;
+}
+
+/* 3. アプリ全体の設定 */
+html,
+body {
+  height: 100%;
+  width: 100%;
+
+  /* デフォルトのスクロールバーを消す（アプリ内で制御するため） */
+  overflow: hidden;
+
+  /* システムフォントを適用（Macらしさを出す） */
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Yu Gothic', YuGothic, 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+
+  /* 文字を滑らかにする */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* 背景色（ダークモードのチラつき防止） */
+  background-color: #333;
+}
+
+/* 4. 入力フォームのフォントを親に合わせる */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* 5. 画像の扱いを直感的に */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* 6. リストの・を消す */
+ul,
+ol {
+  list-style: none;
+}
+
+/* 7. リンクの下線を消す */
+a {
+  text-decoration: none;
+  color: inherit;
+}

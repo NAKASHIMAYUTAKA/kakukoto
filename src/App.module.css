@@ -1,55 +1,138 @@
 /* src/App.module.css */
+
+/* =========================================
+   全体レイアウト: CSS Gridで画面を左右均等分割
+   ========================================= */
 .container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  display: grid;
+  grid-template-columns: 60vw 40vw; /* 画面を物理的に50%ずつ分割 */
   width: 100vw;
-  background-color: #f5f5f0;
-  overflow: hidden;
+  height: 100%;
+  overflow: hidden; /* 画面全体としてのスクロールは禁止 */
+  background-color: #fff;
 }
 
-.editor {
-  /* 縦書き設定 */
-  /* -webkit-writing-mode: vertical-rl; <-- 反転バグの原因になるため削除しました */
-  writing-mode: vertical-rl;
-  text-orientation: upright;
+/* =========================================
+   左側: 入力エリア (機能性・速度重視)
+   ========================================= */
+.inputPane {
+  grid-column: 1 / 2;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-right: 1px solid #ddd;
+  position: relative;
+  z-index: 10;
+  min-width: 0;
+}
 
-  /* フォント設定：美しい明朝体を指定 */
-  font-family: 'Yu Mincho', 'YuMincho', 'Noto Serif CJK JP', serif;
-
-  /* 【重要】美しさの魔法 */
-  /* "palt": 文字の余白を自動で詰める（プロポーショナルメトリクス） */
-  font-feature-settings: 'palt';
-
-  /* 文字サイズと行間のバランス */
-  font-size: 22px;
-  line-height: 1.8;
-  letter-spacing: 0.05em;
-
-  /* 禁則処理（句読点のぶら下がりや追い出し） */
-  line-break: strict;
-  word-break: break-all;
-
-  /* 記号や約物の表示調整 */
-  white-space: pre-wrap;
-
-  /* エディタとしてのサイズ設定 */
-  height: 85vh;
-  /* widthは固定せず、入力に応じて横に伸びるようにする */
-  min-width: 600px;
+/* 【修正】バックドロップを削除し、シンプルなスタイルに戻す */
+.textarea {
+  flex: 1;
+  width: 100%;
+  height: 100%;
   padding: 3rem;
-
-  /* 見た目の調整 */
+  box-sizing: border-box;
+  font-family: 'Menlo', 'Consolas', 'Hiragino Kaku Gothic ProN', sans-serif;
+  font-size: 16px;
+  line-height: 1.9;
+  color: #333;
   border: none;
   outline: none;
   resize: none;
   background-color: transparent;
 
-  /* 横スクロールのみ許可 */
-  overflow-y: hidden;
-  overflow-x: auto;
+  /* 改行設定 */
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
 
-  /* カーソルなど */
-  cursor: text;
+.statusBar {
+  padding: 0.5rem 1rem;
+  background-color: #f9f9f9;
+  border-top: 1px solid #eee;
+  font-size: 12px;
+  color: #888;
+  text-align: right;
+  font-family: sans-serif;
+}
+
+/* =========================================
+   右側: プレビューエリア (美しさ・没入感重視)
+   ========================================= */
+.previewPane {
+  grid-column: 2 / 3;
+  position: relative;
+  overflow: hidden;
+  z-index: 5;
+  background-color: #fcfcf8;
+}
+
+/* スクロール枠 */
+.previewScroller {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  scroll-behavior: auto;
+  padding: 40px 0;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+/* 紙のデザイン */
+.paper {
+  height: 90%;
+  min-height: 600px;
+  width: max-content;
+  min-width: 600px;
+  padding: 6rem 5rem;
+  margin-left: 10vw;
+  margin-right: calc(50% - 200px);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* 縦書きテキスト本体 */
+.verticalText {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-family: 'Hiragino Mincho ProN', 'Yu Mincho', 'YuMincho', serif;
+  font-size: 16px;
+  line-height: 1.7;
+  color: #2b2b2b;
+  letter-spacing: 0;
+  font-feature-settings: 'normal';
+  font-variant-east-asian: full-width;
+  white-space: pre-wrap;
+  word-break: break-all;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100%;
+  padding: 0 20rem;
+}
+
+/* 各段落のスタイル */
+.paragraph {
+  margin-left: 0;
+  display: block;
+  border-right: 3px solid transparent;
+}
+
+/* アクティブな行のハイライト */
+.active {
+  background-color: rgba(0, 0, 0, 0.03);
+  border-right: 3px solid rgba(0, 122, 255, 0.3);
+  border-radius: 2px;
+}
+
+/* 【修正】全角スペースのハイライト位置調整 */
+.zenkakuSpace {
+  background-color: rgba(0, 0, 0, 0.1); /* 薄いグレー */
+  border-radius: 2px;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
 }
