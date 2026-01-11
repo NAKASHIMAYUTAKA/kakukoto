@@ -16,7 +16,7 @@
   -webkit-text-size-adjust: none;
   color-scheme: dark light;
   tab-size: 2;
-  scrollbar-gutter: stable;
+  /* scrollbar-gutter: stable; */
   interpolate-size: allow-keywords;
   line-height: 1.5;
 }
@@ -133,11 +133,14 @@
   user-select: none !important;
 }
 
+:where(:root, body) {
+  overflow-x: clip;
+}
+
 html,
 body {
   height: 100%;
   width: 100%;
-  overflow: hidden;
   font-size: 16px;
   font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Yu Gothic', YuGothic, 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
   -webkit-font-smoothing: antialiased;

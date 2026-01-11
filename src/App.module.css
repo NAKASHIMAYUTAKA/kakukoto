@@ -12,55 +12,24 @@
    左側: 入力エリア
    ========================================= */
 .inputPanel {
+  width: 100%;
   display: flex;
   flex-direction: column;
   position: relative;
-  z-index: var(--z-m);
+  z-index: var(--z-md);
+  overflow: hidden;
+}
+
+.editorWrapper {
+  flex: 1;
 }
 
 /* =========================================
    右側: プレビューエリア
    ========================================= */
 .previewPanel {
+  width: 100%;
   position: relative;
   overflow: hidden;
-  z-index: var(--z-s);
-}
-
-/* ヘッダーエリア */
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem 1rem;
-  border-bottom: 1px solid #eee;
-  background-color: #fafafa;
-  flex-shrink: 0; /* 高さが縮まないように固定 */
-}
-
-.fileName {
-  font-size: 0.85rem;
-  font-weight: bold;
-  color: #333;
-}
-
-.saveButton {
-  padding: 0.3rem 0.8rem;
-  font-size: 0.8rem;
-  cursor: pointer;
-  background-color: #333;
-  color: white;
-  border: none;
-  border-radius: 4px;
-}
-
-.saveButton:hover {
-  background-color: #555;
-}
-
-/* エディタを囲むラッパー（残りの高さを埋める） */
-.editorWrapper {
-  flex: 1; /* ★重要: ヘッダーとバー以外の隙間を全て埋める */
-  min-height: 0; /* Flexアイテムの溢れ防止 */
-  position: relative;
+  z-index: var(--z-md);
 }

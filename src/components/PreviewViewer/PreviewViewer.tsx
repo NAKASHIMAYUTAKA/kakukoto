@@ -10,6 +10,22 @@ export type PreviewViewerHandle = {
   scrollToParagraph: (index: number) => void;
 };
 
+// ヘルパー関数: 再描画のたびに生成されないよう外に出す
+const renderLine = (line: string) => {
+  if (!line) return <br />;
+  const parts = line.split(/(　)/g);
+  return parts.map((part, i) => {
+    if (part === '　') {
+      return (
+        <span key={i} className={styles.zenkakuSpace}>
+          　
+        </span>
+      );
+    }
+    return part;
+  });
+};
+
 export const PreviewViewer = forwardRef<PreviewViewerHandle, PreviewViewerProps>(({text, activeParagraphIndex}, ref) => {
   const scrollerRef = useRef<HTMLDivElement>(null);
   const paragraphRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -20,8 +36,8 @@ export const PreviewViewer = forwardRef<PreviewViewerHandle, PreviewViewerProps>
       const targetParagraph = paragraphRefs.current[paragraphIndex];
 
       if (scroller && targetParagraph) {
-        const scrollerCenter = scroller.clientWidth / 1.4;
-        const paragraphCenter = targetParagraph.offsetLeft + targetParagraph.clientWidth / 1.4;
+        const scrollerCenter = scroller.clientWidth / 1.1;
+        const paragraphCenter = targetParagraph.offsetLeft + targetParagraph.clientWidth / 1.1;
         const scrollTarget = paragraphCenter - scrollerCenter;
 
         scroller.scrollTo({
@@ -31,21 +47,6 @@ export const PreviewViewer = forwardRef<PreviewViewerHandle, PreviewViewerProps>
       }
     },
   }));
-
-  const renderLine = (line: string) => {
-    if (!line) return <br />;
-    const parts = line.split(/(　)/g);
-    return parts.map((part, i) => {
-      if (part === '　') {
-        return (
-          <span key={i} className={styles.zenkakuSpace}>
-            　
-          </span>
-        );
-      }
-      return part;
-    });
-  };
 
   return (
     <div ref={scrollerRef} className={styles.previewScroller}>
