@@ -1,0 +1,29 @@
+/* src/components/StatusBar/StatusBar.module.css */
+
+.statusBar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1em;
+  height: 32px;
+  padding: 0 var(--gap-sm);
+  background-color: var(--color-bg);
+  font-size: 0.8em;
+  color: var(--color-white);
+  user-select: none;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 0.25em;
+}
+
+.count {
+  font-variant-numeric: tabular-nums;
+}
+
+.label {
+  padding-block-start: 0.05em;
+  font-size: 0.75em;
+}

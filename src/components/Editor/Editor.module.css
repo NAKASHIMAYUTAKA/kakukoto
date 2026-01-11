@@ -1,0 +1,23 @@
+/* src/components/Editor/Editor.module.css */
+
+.textarea {
+  width: 100%;
+  height: 100%;
+  padding: var(--gap-md);
+  line-height: 1.9;
+  border: none;
+  outline: none;
+  resize: none;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  color: var(--color-text);
+  font-family: 'Hiragino Mincho ProN', 'Yu Mincho', 'YuMincho', 'MS PMincho', serif;
+  background-color: transparent;
+  background-color: var(--color-editor);
+}
+
+.textarea:focus {
+  outline: none;
+  box-shadow: none;
+}
