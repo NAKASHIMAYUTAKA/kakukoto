@@ -7,23 +7,16 @@
   overflow-x: auto;
   scroll-behavior: auto;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   direction: rtl;
-  align-items: center;
   padding-block: var(--gap-md);
   font-family: var(--font-family-preview);
   background-color: var(--color-preview);
 }
 
-.paper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100%;
-  width: max-content;
-  flex-shrink: 0;
-}
-
 .verticalText {
+  width: max-content;
   height: 100%;
   max-height: 650px;
   padding-block: var(--gap-md);
@@ -55,4 +48,35 @@
   display: inline-block;
   width: 1em;
   height: 1em;
+}
+
+/* ▼ スクロールバーのカスタマイズ (macOS対応強化版) ▼ */
+.previewScroller {
+  scrollbar-width: auto; /* 'thin' や 'none' ではなく 'auto' で太さを確保 */
+  scrollbar-color: rgba(0, 0, 0, 0.4) transparent; /* [つまみ] [背景] */
+}
+
+.previewScroller::-webkit-scrollbar {
+  height: 12px;
+  width: 12px;
+  background-color: transparent;
+}
+
+.previewScroller::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.previewScroller::-webkit-scrollbar-thumb {
+  background-color: #999;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.previewScroller::-webkit-scrollbar-thumb:hover {
+  background-color: #666;
+}
+
+.previewScroller::-webkit-scrollbar-corner {
+  background-color: transparent;
 }

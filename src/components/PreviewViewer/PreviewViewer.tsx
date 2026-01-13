@@ -56,20 +56,18 @@ export const PreviewViewer = memo(
 
     return (
       <div ref={scrollerRef} className={styles.previewScroller}>
-        <div className={styles.paper}>
-          <div className={styles.verticalText}>
-            {lines.map((line, index) => (
-              <div
-                key={index}
-                ref={(el) => {
-                  paragraphRefs.current[index] = el;
-                }}
-                className={`${styles.paragraph} ${index === activeParagraphIndex ? styles.active : ''}`}
-              >
-                {renderLine(line)}
-              </div>
-            ))}
-          </div>
+        <div className={styles.verticalText}>
+          {lines.map((line, index) => (
+            <div
+              key={index}
+              ref={(el) => {
+                paragraphRefs.current[index] = el;
+              }}
+              className={`${styles.paragraph} ${index === activeParagraphIndex ? styles.active : ''}`}
+            >
+              {renderLine(line)}
+            </div>
+          ))}
         </div>
       </div>
     );

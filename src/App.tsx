@@ -31,7 +31,7 @@ function App() {
     // 新しいタイマーをセット
     timerRef.current = setTimeout(() => {
       setPreviewText(text);
-    }, 500); // 0.5秒後に入力完了とみなして更新
+    }, 300);
 
     return () => clearTimeout(timerRef.current);
   }, [text]);
@@ -119,9 +119,7 @@ function App() {
   return (
     <div className={styles.display} tabIndex={-1}>
       <div className={styles.inputPanel}>
-        <div className={styles.editorWrapper}>
-          <Editor ref={inputRef} value={text} onChange={handleChange} onCursorMove={syncCursor} />
-        </div>
+        <Editor ref={inputRef} value={text} onChange={handleChange} onCursorMove={syncCursor} />
         <StatusBar charCount={text.length} fileName={fileName} />
       </div>
 
