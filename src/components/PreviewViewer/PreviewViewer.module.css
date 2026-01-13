@@ -7,7 +7,7 @@
   overflow-x: auto;
   scroll-behavior: auto;
   display: flex;
-  justify-content: flex-start;
+  direction: rtl;
   align-items: center;
   padding-block: var(--gap-md);
   font-family: var(--font-family-preview);
@@ -15,14 +15,17 @@
 }
 
 .paper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   height: 100%;
-  max-height: 650px;
   width: max-content;
   flex-shrink: 0;
 }
 
 .verticalText {
   height: 100%;
+  max-height: 650px;
   padding-block: var(--gap-md);
   writing-mode: vertical-rl;
   text-orientation: upright;
@@ -31,7 +34,11 @@
   font-feature-settings: 'normal';
   font-variant-east-asian: full-width;
   white-space: pre-wrap;
-  word-break: break-all;
+  word-break: normal;
+  overflow-wrap: break-word;
+  line-break: strict;
+  hanging-punctuation: force-end;
+  direction: ltr;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

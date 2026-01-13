@@ -1,4 +1,5 @@
-import {forwardRef, useRef, useImperativeHandle} from 'react';
+/* src/components/PreviewViewer/PreviewViewer.tsx */
+import {forwardRef, useRef, useImperativeHandle, useMemo, memo} from 'react';
 import styles from './PreviewViewer.module.css';
 
 type PreviewViewerProps = {
@@ -26,47 +27,53 @@ const renderLine = (line: string) => {
   });
 };
 
-export const PreviewViewer = forwardRef<PreviewViewerHandle, PreviewViewerProps>(({text, activeParagraphIndex}, ref) => {
-  const scrollerRef = useRef<HTMLDivElement>(null);
-  const paragraphRefs = useRef<(HTMLDivElement | null)[]>([]);
+// memo化して不要な再レンダリングを防ぐ
+export const PreviewViewer = memo(
+  forwardRef<PreviewViewerHandle, PreviewViewerProps>(({text, activeParagraphIndex}, ref) => {
+    const scrollerRef = useRef<HTMLDivElement>(null);
+    const paragraphRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  useImperativeHandle(ref, () => ({
-    scrollToParagraph: (paragraphIndex: number) => {
-      const scroller = scrollerRef.current;
-      const targetParagraph = paragraphRefs.current[paragraphIndex];
+    useImperativeHandle(ref, () => ({
+      scrollToParagraph: (paragraphIndex: number) => {
+        const scroller = scrollerRef.current;
+        const targetParagraph = paragraphRefs.current[paragraphIndex];
 
-      if (scroller && targetParagraph) {
-        const scrollerCenter = scroller.clientWidth / 1.1;
-        const paragraphCenter = targetParagraph.offsetLeft + targetParagraph.clientWidth / 1.1;
-        const scrollTarget = paragraphCenter - scrollerCenter;
+        if (scroller && targetParagraph) {
+          const scrollerCenter = scroller.clientWidth / 1.1;
+          const paragraphCenter = targetParagraph.offsetLeft + targetParagraph.clientWidth / 1.1;
+          const scrollTarget = paragraphCenter - scrollerCenter;
 
-        scroller.scrollTo({
-          left: scrollTarget,
-          behavior: 'smooth',
-        });
-      }
-    },
-  }));
+          scroller.scrollTo({
+            left: scrollTarget,
+            behavior: 'smooth',
+          });
+        }
+      },
+    }));
 
-  return (
-    <div ref={scrollerRef} className={styles.previewScroller}>
-      <div className={styles.paper}>
-        <div className={styles.verticalText}>
-          {text.split('\n').map((line, index) => (
-            <div
-              key={index}
-              ref={(el) => {
-                paragraphRefs.current[index] = el;
-              }}
-              className={`${styles.paragraph} ${index === activeParagraphIndex ? styles.active : ''}`}
-            >
-              {renderLine(line)}
-            </div>
-          ))}
+    // 重いsplit処理をメモ化（テキストが変わった時だけ再計算）
+    const lines = useMemo(() => text.split('\n'), [text]);
+
+    return (
+      <div ref={scrollerRef} className={styles.previewScroller}>
+        <div className={styles.paper}>
+          <div className={styles.verticalText}>
+            {lines.map((line, index) => (
+              <div
+                key={index}
+                ref={(el) => {
+                  paragraphRefs.current[index] = el;
+                }}
+                className={`${styles.paragraph} ${index === activeParagraphIndex ? styles.active : ''}`}
+              >
+                {renderLine(line)}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
-  );
-});
+    );
+  })
+);
 
 PreviewViewer.displayName = 'PreviewViewer';

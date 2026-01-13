@@ -10,11 +10,9 @@
   outline: none;
   resize: none;
   white-space: pre-wrap;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
+  word-break: break-all;
   color: var(--color-text);
   font-family: var(--font-family-editor);
-  background-color: transparent;
   background-color: var(--color-editor);
 }
 
