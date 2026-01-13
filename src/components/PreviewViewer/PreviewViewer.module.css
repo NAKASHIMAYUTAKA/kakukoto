@@ -10,7 +10,7 @@
   justify-content: flex-start;
   align-items: center;
   padding-block: var(--gap-md);
-  font-family: 'Hiragino Mincho ProN', 'Yu Mincho', 'YuMincho', serif;
+  font-family: var(--font-family-preview);
   background-color: var(--color-preview);
 }
 
@@ -22,6 +22,8 @@
 }
 
 .verticalText {
+  height: 100%;
+  padding-block: var(--gap-md);
   writing-mode: vertical-rl;
   text-orientation: upright;
   line-height: 1.6;
@@ -32,13 +34,11 @@
   word-break: break-all;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  height: 100%;
-  padding-block: var(--gap-md);
 }
 
 .paragraph.active {
-  background-color: rgba(0, 0, 0, 0.03);
-  border-right: 2px solid rgba(0, 122, 255, 0.3);
+  background-color: rgba(0, 0, 0, 0.04);
+  border-right: 2px solid rgba(0, 122, 255, 0.2);
   border-radius: 2px;
 }
 

@@ -1,51 +1,75 @@
 import {useState, useRef} from 'react';
-import {writeTextFile} from '@tauri-apps/plugin-fs';
-import {save} from '@tauri-apps/plugin-dialog';
+import {writeTextFile, readTextFile} from '@tauri-apps/plugin-fs';
+import {save, open, message} from '@tauri-apps/plugin-dialog';
 
 export const useFileHandler = () => {
-  // ファイルのパスを保持（Web版の「ハンドル」ではなく「パス文字列」で管理します）
   const filePathRef = useRef<string | null>(null);
   const [fileName, setFileName] = useState<string>('無題');
 
-  const saveFile = async (content: string) => {
+  const extractFileName = (path: string) => path.split(/[\\/]/).pop() || '無題';
+
+  const newFile = async () => {
+    filePathRef.current = null;
+    setFileName('無題');
+    return '';
+  };
+
+  const openFile = async () => {
     try {
-      // 1. パスがない（新規保存）場合はダイアログを出す
-      if (!filePathRef.current) {
-        const selectedPath = await save({
-          filters: [
-            {
-              name: 'Text Files',
-              extensions: ['txt'],
-            },
-          ],
-          defaultPath: 'novel.txt',
-        });
+      const selectedPath = await open({
+        filters: [{name: 'Text Files', extensions: ['txt']}],
+      });
 
-        // キャンセルされた場合は null が返る
-        if (!selectedPath) return;
+      if (!selectedPath) return null;
 
-        filePathRef.current = selectedPath;
+      const content = await readTextFile(selectedPath);
+      filePathRef.current = selectedPath;
+      setFileName(extractFileName(selectedPath));
 
-        // パスからファイル名だけを抽出して表示用にセット
-        // (Windowsの '\' と Mac/Linuxの '/' 両対応)
-        const name = selectedPath.split(/[\\/]/).pop() || '無題';
-        setFileName(name);
-      }
-
-      // 2. ファイルに書き込む（パスが決まっていれば確認なしで上書き）
-      if (filePathRef.current) {
-        await writeTextFile(filePathRef.current, content);
-        // 必要ならここで「保存しました」などのトーストを出してもOK
-        console.log('Saved to:', filePathRef.current);
-      }
+      return content;
     } catch (err) {
-      console.error('保存に失敗しました:', err);
-      alert('保存できませんでした');
+      console.error(err);
+      await message('ファイルを開けませんでした', {kind: 'error'});
+      return null;
+    }
+  };
+
+  const saveFile = async (content: string) => {
+    if (!filePathRef.current) {
+      return await saveAsFile(content);
+    }
+    try {
+      await writeTextFile(filePathRef.current, content);
+      console.log('Saved to:', filePathRef.current);
+    } catch (err) {
+      console.error(err);
+      await message('保存に失敗しました', {kind: 'error'});
+    }
+  };
+
+  const saveAsFile = async (content: string) => {
+    try {
+      const selectedPath = await save({
+        filters: [{name: 'Text Files', extensions: ['txt']}],
+        defaultPath: fileName,
+      });
+
+      if (!selectedPath) return;
+
+      await writeTextFile(selectedPath, content);
+      filePathRef.current = selectedPath;
+      setFileName(extractFileName(selectedPath));
+    } catch (err) {
+      console.error(err);
+      await message('保存に失敗しました', {kind: 'error'});
     }
   };
 
   return {
-    saveFile,
     fileName,
+    newFile,
+    openFile,
+    saveFile,
+    saveAsFile,
   };
 };

@@ -13,7 +13,7 @@
   word-wrap: break-word;
   overflow-wrap: break-word;
   color: var(--color-text);
-  font-family: 'Hiragino Mincho ProN', 'Yu Mincho', 'YuMincho', 'MS PMincho', serif;
+  font-family: var(--font-family-editor);
   background-color: transparent;
   background-color: var(--color-editor);
 }

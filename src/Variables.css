@@ -2,31 +2,24 @@
 
 :root {
   /* font */
-  --line-height: 1.7;
-  --font-weight: 400;
-  --letter-spacing: 0.1em;
+  --font-size-body: 16px;
+  --line-height-body: 1.7;
+  --font-family-body: Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+  --font-family-editor: Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+  --font-family-preview: 'Yu Mincho', 'YuMincho', 'Hiragino Mincho ProN', 'MS PMincho', serif;
 
   /* color */
-  --color-body: #000;
-  --color-bg: #333;
+  --color-text-body: #000;
+  --color-bg-body: #333;
   --color-text: #333;
   --color-white: #fff;
-  --color-red: #ff1d2a;
   --color-preview: #fcfcf8;
   --color-pink: #fff8f8;
-  --color-heading: #333;
-  --color-yellow: #f4c41e;
   --color-editor: #fffefe;
-  --color-green: #d1f277;
-  --color-blue: #0077d0ff;
-  --color-turquoise: #39b9b5;
   --color-gray: #ddd;
   --color-shadow: #6e6e6e;
 
   /* width */
-  --width-sm: 650px;
-  --width-md: 980px;
-  --width-lg: 1200px;
 
   /* gap */
   --gap-sm: 2em;
@@ -42,7 +35,4 @@
   --z-s: 11;
   --z-md: 49;
   --z-lg: 99;
-
-  /* opacity */
-  --opacity: 0.6;
 }

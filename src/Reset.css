@@ -141,10 +141,12 @@ html,
 body {
   height: 100%;
   width: 100%;
-  font-size: 16px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Yu Gothic', YuGothic, 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+  font-weight: normal;
+  line-height: var(--line-height-body);
+  font-size: var(--font-size-body);
+  font-family: var(--font-family-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--color-bg);
-  color: var(--color-body);
+  background-color: var(--color-bg-body);
+  color: var(--color-text-body);
 }

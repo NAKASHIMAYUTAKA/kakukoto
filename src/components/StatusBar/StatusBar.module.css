@@ -6,7 +6,8 @@
   align-items: center;
   gap: 1em;
   height: 32px;
-  padding: 0 var(--gap-sm);
+  padding-block: 0;
+  padding-inline: var(--gap-sm);
   background-color: var(--color-bg);
   font-size: 0.8em;
   color: var(--color-white);
@@ -26,4 +27,8 @@
 .label {
   padding-block-start: 0.05em;
   font-size: 0.75em;
+}
+
+.name {
+  margin-inline-end: 0.75em;
 }
