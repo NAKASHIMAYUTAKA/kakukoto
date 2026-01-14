@@ -21,10 +21,8 @@
   max-height: 650px;
   padding-block: var(--gap-md);
   writing-mode: vertical-rl;
-  text-orientation: upright;
   line-height: 1.6;
   letter-spacing: 0;
-  font-feature-settings: 'normal';
   font-variant-east-asian: full-width;
   white-space: pre-wrap;
   word-break: normal;

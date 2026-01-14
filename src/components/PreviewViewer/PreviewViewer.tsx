@@ -39,8 +39,8 @@ export const PreviewViewer = memo(
         const targetParagraph = paragraphRefs.current[paragraphIndex];
 
         if (scroller && targetParagraph) {
-          const scrollerCenter = scroller.clientWidth / 1.1;
-          const paragraphCenter = targetParagraph.offsetLeft + targetParagraph.clientWidth / 1.1;
+          const scrollerCenter = scroller.clientWidth / 1.15;
+          const paragraphCenter = targetParagraph.offsetLeft + targetParagraph.clientWidth / 1.15;
           const scrollTarget = paragraphCenter - scrollerCenter;
 
           scroller.scrollTo({
