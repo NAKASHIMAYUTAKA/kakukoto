@@ -5,7 +5,7 @@
   --font-size-body: 16px;
   --line-height-body: 1.7;
   --font-family-body: Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Noto Sans JP', sans-serif;
-  --font-family-editor: Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Noto Sans JP', 'Yu Gothic', 'Meiryo', sans-serif;
+  --font-family-editor: 'Meiryo', 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Noto Sans JP', sans-serif;
   --font-family-preview: 'Yu Mincho', 'YuMincho', 'Hiragino Mincho ProN', 'MS PMincho', serif;
 
   /* color */
