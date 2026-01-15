@@ -8,7 +8,7 @@
   height: 32px;
   padding-block: 0;
   padding-inline: var(--gap-sm);
-  background-color: var(--color-bg);
+  background-color: var(--color-bg-body);
   font-size: 0.8em;
   color: var(--color-white);
   user-select: none;

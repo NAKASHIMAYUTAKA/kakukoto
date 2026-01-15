@@ -112,12 +112,6 @@
   display: none !important;
 }
 
-:where(:focus-visible) {
-  outline: 3px solid CanvasText;
-  box-shadow: 0 0 0 5px Canvas;
-  outline-offset: 1px;
-}
-
 :where(:focus-visible, :target) {
   scroll-margin-block: 8vh;
 }

@@ -3,19 +3,19 @@
 :root {
   /* font */
   --font-size-body: 16px;
-  --line-height-body: 1.7;
+  --line-height-body: 1.8;
   --font-family-body: Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Noto Sans JP', sans-serif;
   --font-family-editor: 'Meiryo', 'Yu Gothic', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Noto Sans JP', sans-serif;
   --font-family-preview: 'Yu Mincho', 'YuMincho', 'Hiragino Mincho ProN', 'MS PMincho', serif;
 
   /* color */
   --color-text-body: #000;
-  --color-bg-body: #333;
+  --color-bg-body: #32302f;
   --color-text: #333;
-  --color-white: #fff;
-  --color-preview: #fcfcf8;
+  --color-white: #fbf1c7;
+  --color-preview: #f9f5d7;
   --color-pink: #fff8f8;
-  --color-editor: #fffefe;
+  --color-editor: #f2e5bc;
   --color-gray: #ddd;
   --color-shadow: #6e6e6e;
 

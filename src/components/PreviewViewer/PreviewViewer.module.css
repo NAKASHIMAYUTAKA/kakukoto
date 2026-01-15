@@ -19,7 +19,7 @@
   width: max-content;
   height: 100%;
   max-height: 650px;
-  padding-block: var(--gap-md);
+  padding-block: 325px;
   writing-mode: vertical-rl;
   line-height: 1.6;
   letter-spacing: 0;
@@ -32,6 +32,15 @@
   direction: ltr;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.paragraph {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.paragraph:hover {
+  background-color: rgba(0, 0, 0, 0.02);
 }
 
 .paragraph.active {
@@ -48,10 +57,9 @@
   height: 1em;
 }
 
-/* ▼ スクロールバーのカスタマイズ (macOS対応強化版) ▼ */
 .previewScroller {
-  scrollbar-width: auto; /* 'thin' や 'none' ではなく 'auto' で太さを確保 */
-  scrollbar-color: rgba(0, 0, 0, 0.4) transparent; /* [つまみ] [背景] */
+  scrollbar-width: auto;
+  scrollbar-color: rgba(0, 0, 0, 0.4) transparent;
 }
 
 .previewScroller::-webkit-scrollbar {

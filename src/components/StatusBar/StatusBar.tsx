@@ -1,3 +1,5 @@
+/* src/components/StatusBar/StatusBar.tsx */
+
 import {HTMLAttributes} from 'react';
 import styles from './StatusBar.module.css';
 

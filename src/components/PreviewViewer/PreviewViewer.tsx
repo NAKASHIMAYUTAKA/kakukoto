@@ -5,13 +5,13 @@ import styles from './PreviewViewer.module.css';
 type PreviewViewerProps = {
   text: string;
   activeParagraphIndex: number;
+  onParagraphClick: (index: number) => void;
 };
 
 export type PreviewViewerHandle = {
   scrollToParagraph: (index: number) => void;
 };
 
-// ヘルパー関数: 再描画のたびに生成されないよう外に出す
 const renderLine = (line: string) => {
   if (!line) return <br />;
   const parts = line.split(/(　)/g);
@@ -27,9 +27,8 @@ const renderLine = (line: string) => {
   });
 };
 
-// memo化して不要な再レンダリングを防ぐ
 export const PreviewViewer = memo(
-  forwardRef<PreviewViewerHandle, PreviewViewerProps>(({text, activeParagraphIndex}, ref) => {
+  forwardRef<PreviewViewerHandle, PreviewViewerProps>(({text, activeParagraphIndex, onParagraphClick}, ref) => {
     const scrollerRef = useRef<HTMLDivElement>(null);
     const paragraphRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -39,9 +38,9 @@ export const PreviewViewer = memo(
         const targetParagraph = paragraphRefs.current[paragraphIndex];
 
         if (scroller && targetParagraph) {
-          const scrollerCenter = scroller.clientWidth / 1.15;
-          const paragraphCenter = targetParagraph.offsetLeft + targetParagraph.clientWidth / 1.15;
-          const scrollTarget = paragraphCenter - scrollerCenter;
+          const scrollerCenter = scroller.clientWidth / 2;
+          const paragraphHead = targetParagraph.offsetLeft + targetParagraph.clientWidth;
+          const scrollTarget = paragraphHead - scrollerCenter;
 
           scroller.scrollTo({
             left: scrollTarget,
@@ -51,7 +50,6 @@ export const PreviewViewer = memo(
       },
     }));
 
-    // 重いsplit処理をメモ化（テキストが変わった時だけ再計算）
     const lines = useMemo(() => text.split('\n'), [text]);
 
     return (
@@ -63,6 +61,7 @@ export const PreviewViewer = memo(
               ref={(el) => {
                 paragraphRefs.current[index] = el;
               }}
+              onClick={() => onParagraphClick(index)}
               className={`${styles.paragraph} ${index === activeParagraphIndex ? styles.active : ''}`}
             >
               {renderLine(line)}
