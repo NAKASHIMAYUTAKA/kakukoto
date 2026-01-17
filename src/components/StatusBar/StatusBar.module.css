@@ -10,8 +10,8 @@
   padding-inline: var(--gap-sm);
   background-color: var(--color-bg-body);
   font-size: 0.8em;
-  color: var(--color-white);
   user-select: none;
+  color: var(--color-status);
 }
 
 .item {

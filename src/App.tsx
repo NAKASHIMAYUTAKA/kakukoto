@@ -131,12 +131,7 @@ function App() {
       </div>
 
       <div className={styles.previewPanel}>
-        <PreviewViewer
-          ref={previewRef}
-          text={previewText}
-          activeParagraphIndex={activeParagraphIndex}
-          onParagraphClick={handlePreviewClick} // ★追加
-        />
+        <PreviewViewer ref={previewRef} text={previewText} activeParagraphIndex={activeParagraphIndex} onParagraphClick={handlePreviewClick} />
       </div>
     </div>
   );

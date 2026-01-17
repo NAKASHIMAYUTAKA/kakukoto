@@ -1,10 +1,11 @@
 /* src/components/Editor/Editor.tsx */
 import React, {useCallback} from 'react';
 import CodeMirror, {ReactCodeMirrorRef} from '@uiw/react-codemirror';
-import {EditorView, ViewPlugin, Decoration, DecorationSet, ViewUpdate} from '@codemirror/view';
+import {EditorView, ViewPlugin, Decoration, DecorationSet, ViewUpdate, keymap, WidgetType} from '@codemirror/view';
 import {EditorState, RangeSetBuilder} from '@codemirror/state';
+import {insertNewline} from '@codemirror/commands';
 
-// ▼ アクティブ行ハイライト（変更なし）
+// ▼ アクティブ行ハイライト
 const activeLineHighlighter = ViewPlugin.fromClass(
   class {
     decorations: DecorationSet;
@@ -31,7 +32,7 @@ const activeLineHighlighter = ViewPlugin.fromClass(
   }
 );
 
-// ▼ タイプライタースクロール（変更なし）
+// ▼ タイプライタースクロール
 const typewriterScroll = EditorState.transactionExtender.of((tr) => {
   if (tr.selection || tr.docChanged) {
     return {
@@ -40,6 +41,23 @@ const typewriterScroll = EditorState.transactionExtender.of((tr) => {
   }
   return null;
 });
+
+// ▼ 全角スペースウィジェット
+class ZenkakuSpaceWidget extends WidgetType {
+  toDOM() {
+    const span = document.createElement('span');
+    span.className = 'cm-zenkaku-space';
+    span.innerText = '　';
+    return span;
+  }
+
+  eq(_other: ZenkakuSpaceWidget) {
+    return true;
+  }
+  ignoreEvent() {
+    return false;
+  }
+}
 
 // ▼ 全角スペースハイライトプラグイン
 const zenkakuSpaceHighlighter = ViewPlugin.fromClass(
@@ -51,7 +69,6 @@ const zenkakuSpaceHighlighter = ViewPlugin.fromClass(
     }
 
     update(update: ViewUpdate) {
-      // ドキュメント変更またはビューポート（表示範囲）移動時に再計算
       if (update.docChanged || update.viewportChanged) {
         this.decorations = this.buildDecorations(update.view);
       }
@@ -60,16 +77,21 @@ const zenkakuSpaceHighlighter = ViewPlugin.fromClass(
     buildDecorations(view: EditorView) {
       const builder = new RangeSetBuilder<Decoration>();
 
-      // 表示されている範囲に対してのみ処理を行うループ
       for (const {from, to} of view.visibleRanges) {
         const text = view.state.doc.sliceString(from, to);
-        const regex = /　/g; // 全角スペースを検索
+        const regex = /　/g;
         let match;
 
         while ((match = regex.exec(text))) {
           const start = from + match.index;
           const end = start + 1;
-          builder.add(start, end, Decoration.mark({class: 'cm-zenkaku-space'}));
+          builder.add(
+            start,
+            end,
+            Decoration.replace({
+              widget: new ZenkakuSpaceWidget(),
+            })
+          );
         }
       }
       return builder.finish();
@@ -85,36 +107,42 @@ const notepadTheme = EditorView.theme({
   '&': {
     height: '100%',
     backgroundColor: 'var(--color-editor)',
-    color: 'var(--color-shadow) ',
+    color: 'var(--color-preview) ',
     display: 'flex',
     flexDirection: 'column',
-  },
-
-  '.cm-activeLineText': {
-    color: 'var(--color-text) !important',
-    backgroundColor: '#ebdbb2',
-    padding: '2em 0.5em !important',
-    borderRadius: '4px',
+    WebkitFontSmoothing: 'subpixel-antialiased',
   },
 
   '.cm-zenkaku-space': {
-    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    backgroundColor: 'rgba(255, 255, 255, 1)',
     borderRadius: '2px',
     display: 'inline-block',
     width: '1em',
     height: '1em',
     verticalAlign: 'middle',
+    color: 'transparent',
+    lineHeight: '1',
+    userSelect: 'none',
+  },
+
+  '.cm-activeLineText': {
+    color: '#000 !important',
+    backgroundColor: 'var(--color-status)',
+    padding: '0 !important',
+    paddingBlock: '1em !important',
+    borderRadius: '4px',
   },
 
   '.cm-line': {
-    padding: '0.5em 0',
+    padding: '0 !important',
+    paddingBlock: '0.5em !important',
+    paddingInline: '0.5em !important',
   },
 
   '.cm-scroller': {
     flex: '1',
     overflow: 'auto',
     fontFamily: 'var(--font-family-editor)',
-    padding: 'var(--gap-md)',
     scrollBehavior: 'auto !important',
   },
 
@@ -122,24 +150,13 @@ const notepadTheme = EditorView.theme({
     whiteSpace: 'pre-wrap',
     wordBreak: 'break-all',
     padding: '0',
-    paddingBlock: '325px',
+    paddingInline: '2.5em',
+    paddingBlock: 'calc(325px - 1.25em)',
   },
 
   '.cm-gutters': {display: 'none'},
   '.cm-activeLine': {backgroundColor: 'transparent'},
   '.cm-selectionBackground': {backgroundColor: '#b3d4fc !important'},
-
-  // スクロールバー
-  '.cm-scroller::-webkit-scrollbar': {width: '12px', height: '12px'},
-  '.cm-scroller::-webkit-scrollbar-track': {background: 'transparent'},
-  '.cm-scroller::-webkit-scrollbar-thumb': {
-    backgroundColor: '#999',
-    borderRadius: '6px',
-    border: '2px solid transparent',
-    backgroundClip: 'content-box',
-  },
-  '.cm-scroller::-webkit-scrollbar-thumb:hover': {backgroundColor: '#666'},
-  '.cm-scroller::-webkit-scrollbar-corner': {backgroundColor: 'transparent'},
 });
 
 type EditorProps = {
@@ -167,7 +184,7 @@ export const Editor = React.forwardRef<ReactCodeMirrorRef, EditorProps>(({value,
       value={value}
       style={{height: '100%'}}
       theme={notepadTheme}
-      extensions={[EditorView.lineWrapping, activeLineHighlighter, typewriterScroll, zenkakuSpaceHighlighter]}
+      extensions={[EditorView.lineWrapping, activeLineHighlighter, typewriterScroll, zenkakuSpaceHighlighter, keymap.of([{key: 'Enter', run: insertNewline}])]}
       onChange={onChange}
       onUpdate={handleUpdate}
       basicSetup={{

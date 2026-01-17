@@ -15,15 +15,16 @@
   --color-white: #fbf1c7;
   --color-preview: #f9f5d7;
   --color-pink: #fff8f8;
-  --color-editor: #f2e5bc;
+  --color-editor: #32302f;
   --color-gray: #ddd;
   --color-shadow: #6e6e6e;
+  --color-status: #f2e5bc;
 
   /* width */
 
   /* gap */
   --gap-sm: 2em;
-  --gap-md: 4em;
+  --gap-md: 3em;
   --gap-lg: 6em;
 
   /* time */

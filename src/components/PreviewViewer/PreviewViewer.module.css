@@ -19,7 +19,7 @@
   width: max-content;
   height: 100%;
   max-height: 650px;
-  padding-block: 325px;
+  padding-block: calc(50vh - 6em);
   writing-mode: vertical-rl;
   line-height: 1.6;
   letter-spacing: 0;
@@ -45,8 +45,7 @@
 
 .paragraph.active {
   background-color: rgba(0, 0, 0, 0.04);
-  border-right: 2px solid rgba(0, 122, 255, 0.2);
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
 .zenkakuSpace {
@@ -56,6 +55,8 @@
   width: 1em;
   height: 1em;
 }
+
+/*
 
 .previewScroller {
   scrollbar-width: auto;
@@ -86,3 +87,5 @@
 .previewScroller::-webkit-scrollbar-corner {
   background-color: transparent;
 }
+
+*/
