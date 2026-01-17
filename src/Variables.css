@@ -21,16 +21,13 @@
   --color-status: #f2e5bc;
 
   /* width */
+  --editor-height: 650px;
+  --editor-half-height: calc(var(--editor-height) / 2);
 
   /* gap */
   --gap-sm: 2em;
   --gap-md: 3em;
   --gap-lg: 6em;
-
-  /* time */
-  --delay-sm: 0.4s;
-  --delay-md: 0.8s;
-  --delay-lg: 1s;
 
   /* z-index */
   --z-s: 11;
