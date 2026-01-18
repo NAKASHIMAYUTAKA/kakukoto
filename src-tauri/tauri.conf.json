@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "kakukoto.",
-  "version": "0.1.6",
-  "identifier": "com.dev.kakukoto",
+  "version": "0.1.8",
+  "identifier": "com.dev.kakukoto.v1",
   "build": {
     "beforeDevCommand": "npm run dev",
     "devUrl": "http://localhost:1420",
