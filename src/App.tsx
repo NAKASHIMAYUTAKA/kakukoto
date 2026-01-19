@@ -3,6 +3,7 @@ import {useState, useRef, useEffect, useCallback} from 'react';
 import {listen} from '@tauri-apps/api/event';
 import {ReactCodeMirrorRef} from '@uiw/react-codemirror';
 import {openSearchPanel} from '@codemirror/search';
+import {EditorView} from '@codemirror/view';
 import styles from './App.module.css';
 import {Editor} from './components/Editor/Editor';
 import {StatusBar} from './components/StatusBar/StatusBar';
@@ -11,6 +12,9 @@ import {useFileHandler} from './hooks/useFileHandler';
 
 function App() {
   const [text, setText] = useState('　吾輩は猫である。名前はまだ無い。\n\n　どこで生れたかとんと見当がつかぬ。\n　何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。');
+
+  // ▼ 集中モードの状態管理をここ（親）に追加
+  const [isFocusMode, setIsFocusMode] = useState(false);
 
   const [previewText, setPreviewText] = useState(text);
   const [activeParagraphIndex, setActiveParagraphIndex] = useState(0);
@@ -42,10 +46,12 @@ function App() {
       const line = view.state.doc.line(targetLine);
 
       view.focus();
+      // 通常モードでも強制的に「中央」にスクロールさせる
       view.dispatch({
         selection: {anchor: line.from},
-        scrollIntoView: true,
+        effects: EditorView.scrollIntoView(line.from, {y: 'center'}),
       });
+
       setActiveParagraphIndex(paragraphIndex);
     }
   }, []);
@@ -75,13 +81,19 @@ function App() {
             setText(newContent);
             setPreviewText(newContent);
             break;
-
           case 'f':
-            e.preventDefault(); // ブラウザの検索を無効化
+            e.preventDefault();
             const view = inputRef.current?.view;
             if (view) {
-              view.focus(); // エディタにフォーカス
-              openSearchPanel(view); // CodeMirrorの検索パネルを開く
+              view.focus();
+              openSearchPanel(view);
+            }
+            break;
+
+          case 'l':
+            if (e.shiftKey) {
+              e.preventDefault();
+              setIsFocusMode((prev) => !prev);
             }
             break;
         }
@@ -91,7 +103,7 @@ function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [text, saveFile, saveAsFile, openFile, newFile]);
 
-  // メニューバー操作のuseEffectは変更なし
+  // メニューバー操作
   useEffect(() => {
     const unlistenNew = listen('menu-new', async () => {
       const newContent = await newFile();
@@ -120,9 +132,11 @@ function App() {
     <div className={styles.display} tabIndex={-1}>
       <div className={styles.inputPanel}>
         <div className={styles.codeWrapper}>
-          <Editor ref={inputRef} value={text} onChange={handleChange} onCursorChange={handleCursorChange} />
+          {/* ▼ Editorに isFocusMode を渡す */}
+          <Editor ref={inputRef} value={text} onChange={handleChange} onCursorChange={handleCursorChange} isFocusMode={isFocusMode} />
         </div>
-        <StatusBar charCount={text.length} fileName={fileName} />
+        {/* ステータスバーに現在のモードを表示すると分かりやすいかも（任意） */}
+        <StatusBar charCount={text.length} fileName={fileName} label={isFocusMode ? '文字/集中' : '文字'} />
       </div>
 
       <div className={styles.previewPanel}>

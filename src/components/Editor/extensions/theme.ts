@@ -4,7 +4,7 @@ export const notepadTheme = EditorView.theme({
   '&': {
     height: '100%',
     backgroundColor: 'var(--color-editor)',
-    color: 'var(--color-preview) ',
+    color: 'var(--color-gray) ',
     display: 'flex',
     flexDirection: 'column',
     WebkitFontSmoothing: 'subpixel-antialiased',
@@ -73,17 +73,13 @@ export const notepadTheme = EditorView.theme({
   },
 
   '.cm-activeLineText': {
-    color: '#000 !important',
-    backgroundColor: 'var(--color-status)',
+    color: 'var(--color-status) !important',
     padding: '0 !important',
-    paddingBlock: '1em !important',
-    borderRadius: '4px',
   },
 
   '.cm-line': {
     padding: '0 !important',
-    paddingBlock: '0.5em !important',
-    paddingInline: '0.5em !important',
+    lineHeight: '2',
   },
 
   '.cm-scroller': {
@@ -97,8 +93,12 @@ export const notepadTheme = EditorView.theme({
     whiteSpace: 'pre-wrap',
     wordBreak: 'break-all',
     padding: '0',
-    paddingInline: '2.5em',
+    paddingInline: 'var(--gap-md)',
     paddingBlock: 'calc(var(--editor-half-height) - 1.25em)',
+  },
+
+  '.cm-cursor, .cm-dropCursor': {
+    borderLeftColor: 'var(--color-preview)',
   },
 
   '.cm-gutters': {display: 'none'},

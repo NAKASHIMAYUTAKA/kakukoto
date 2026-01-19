@@ -1,5 +1,5 @@
 /* src/components/Editor/Editor.tsx */
-import React, {useCallback} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import CodeMirror, {ReactCodeMirrorRef} from '@uiw/react-codemirror';
 import {EditorView, keymap} from '@codemirror/view';
 import {EditorState} from '@codemirror/state';
@@ -12,9 +12,10 @@ type EditorProps = {
   value: string;
   onChange: (val: string) => void;
   onCursorChange?: (lineIndex: number) => void;
+  isFocusMode: boolean;
 };
 
-export const Editor = React.forwardRef<ReactCodeMirrorRef, EditorProps>(({value, onChange, onCursorChange}, ref) => {
+export const Editor = React.forwardRef<ReactCodeMirrorRef, EditorProps>(({value, onChange, onCursorChange, isFocusMode}, ref) => {
   const handleUpdate = useCallback(
     (viewUpdate: any) => {
       if (viewUpdate.selectionSet && onCursorChange) {
@@ -24,8 +25,18 @@ export const Editor = React.forwardRef<ReactCodeMirrorRef, EditorProps>(({value,
         onCursorChange(line);
       }
     },
-    [onCursorChange]
+    [onCursorChange],
   );
+
+  const extensions = useMemo(() => {
+    const baseExtensions = [EditorView.lineWrapping, activeLineHighlighter, zenkakuSpaceHighlighter, searchExtension, keymap.of([{key: 'Enter', run: insertNewline}])];
+
+    if (isFocusMode) {
+      baseExtensions.push(typewriterScroll);
+    }
+
+    return baseExtensions;
+  }, [isFocusMode]);
 
   return (
     <CodeMirror
@@ -33,7 +44,7 @@ export const Editor = React.forwardRef<ReactCodeMirrorRef, EditorProps>(({value,
       value={value}
       style={{height: '100%'}}
       theme={notepadTheme}
-      extensions={[EditorView.lineWrapping, activeLineHighlighter, typewriterScroll, zenkakuSpaceHighlighter, searchExtension, keymap.of([{key: 'Enter', run: insertNewline}])]}
+      extensions={extensions}
       onChange={onChange}
       onUpdate={handleUpdate}
       basicSetup={{
@@ -45,7 +56,7 @@ export const Editor = React.forwardRef<ReactCodeMirrorRef, EditorProps>(({value,
         bracketMatching: false,
         closeBrackets: false,
         autocompletion: false,
-        defaultKeymap: true, // Search用のショートカット(Ctrl+Fなど)もここに含まれます
+        defaultKeymap: true,
       }}
     />
   );
