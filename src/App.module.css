@@ -1,21 +1,26 @@
 /* src/App.module.css */
 
 .display {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
+  position: relative;
+  background-color: var(--color-bg-body);
+}
+
+/* --- パネル共通設定 --- */
+.inputPanel,
+.previewPanel {
+  width: 100%;
+  height: 100%;
   overflow: hidden;
 }
 
 .inputPanel {
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   position: relative;
   z-index: var(--z-md);
-  overflow: hidden;
   background-color: var(--color-editor);
 }
 
@@ -34,4 +39,40 @@
   position: relative;
   overflow: hidden;
   z-index: var(--z-md);
+}
+
+/* --- モード別レイアウト定義 --- */
+
+/* 1. kakuyomu (2画面分割) */
+.display[data-mode='kakuyomu'] {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+/* 2. kakukoto (エディタのみ) */
+.display[data-mode='kakukoto'] {
+  display: block;
+}
+.display[data-mode='kakukoto'] .previewPanel {
+  display: none;
+}
+
+.display[data-mode='kakukoto'] .codeWrapper {
+  max-width: 700px;
+  margin-inline: auto;
+}
+
+/* 3. yomukoto (プレビューのみ) */
+.display[data-mode='yomukoto'] {
+  display: block;
+}
+.display[data-mode='yomukoto'] .inputPanel {
+  display: none;
+}
+
+/* --- レスポンシブ対応 (700px未満) --- */
+@media (max-width: 699px) {
+  .display[data-mode='kakuyomu'] {
+    display: block;
+  }
 }

@@ -18,8 +18,8 @@
 .verticalText {
   width: max-content;
   height: 100%;
-  max-height: 650px;
-  padding-block: calc(50vh - 6em);
+  max-height: var(--preview-height);
+  padding-block: calc(50% - 1em);
   writing-mode: vertical-rl;
   line-height: 1.6;
   letter-spacing: 0;

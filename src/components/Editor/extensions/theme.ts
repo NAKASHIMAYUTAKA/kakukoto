@@ -94,7 +94,7 @@ export const notepadTheme = EditorView.theme({
     wordBreak: 'break-all',
     padding: '0',
     paddingInline: 'var(--gap-md)',
-    paddingBlock: 'calc(var(--editor-half-height) - 1.25em)',
+    paddingBlock: 'calc(var(--editor-height-half) - 1em)',
   },
 
   '.cm-cursor, .cm-dropCursor': {

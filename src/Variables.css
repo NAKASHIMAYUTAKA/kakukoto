@@ -21,8 +21,10 @@
   --color-status: #f2e5bc;
 
   /* width */
+  --preview-height: 650px;
   --editor-height: 650px;
-  --editor-half-height: calc(var(--editor-height) / 2);
+  --preview-height-half: calc(var(--preview-height) / 2);
+  --editor-height-half: calc(var(--editor-height) / 2);
 
   /* gap */
   --gap-sm: 2em;
