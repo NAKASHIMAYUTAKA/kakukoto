@@ -6,9 +6,21 @@
   overflow: hidden;
   position: relative;
   background-color: var(--color-bg-body);
+
+  /* モバイルファースト: デフォルトはブロック表示 */
+  display: block;
 }
 
 /* --- パネル共通設定 --- */
+.sidebarPanel {
+  /* デフォルト(スマホ)では非表示 */
+  display: none;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: var(--z-md);
+}
+
 .inputPanel,
 .previewPanel {
   width: 100%;
@@ -41,38 +53,49 @@
   z-index: var(--z-md);
 }
 
-/* --- モード別レイアウト定義 --- */
+/* --- モード別の表示制御 (全画面幅共通) --- */
 
-/* 1. kakuyomu (2画面分割) */
-.display[data-mode='kakuyomu'] {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
-/* 2. kakukoto (エディタのみ) */
-.display[data-mode='kakukoto'] {
-  display: block;
-}
+/* kakukoto: プレビューを隠す */
 .display[data-mode='kakukoto'] .previewPanel {
   display: none;
 }
 
-.display[data-mode='kakukoto'] .codeWrapper {
-  max-width: 700px;
-  margin-inline: auto;
-}
-
-/* 3. yomukoto (プレビューのみ) */
-.display[data-mode='yomukoto'] {
-  display: block;
-}
+/* yomukoto: エディタとサイドバーを隠す */
 .display[data-mode='yomukoto'] .inputPanel {
   display: none;
 }
+/* yomukotoの時は常にサイドバー非表示 */
+.display[data-mode='yomukoto'] .sidebarPanel {
+  display: none;
+}
 
-/* --- レスポンシブ対応 (700px未満) --- */
-@media (max-width: 699px) {
+/* --- PC/タブレット対応 (700px以上) --- */
+@media (min-width: 700px) {
+  /* サイドバーを表示 (yomukoto以外) */
+  .sidebarPanel {
+    display: block;
+  }
+
+  /* 1. kakuyomu (3画面: ツリー + エディタ + プレビュー) */
   .display[data-mode='kakuyomu'] {
+    display: grid;
+    grid-template-columns: 240px 1fr 1fr;
+  }
+
+  /* 2. kakukoto (2画面: ツリー + エディタ) */
+  .display[data-mode='kakukoto'] {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+  }
+
+  /* kakukotoモードの中央寄せ (PCのみ適用) */
+  .display[data-mode='kakukoto'] .codeWrapper {
+    max-width: 700px;
+    margin-inline: auto;
+  }
+
+  /* 3. yomukoto (プレビューのみ) */
+  .display[data-mode='yomukoto'] {
     display: block;
   }
 }

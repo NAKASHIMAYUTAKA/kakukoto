@@ -1,0 +1,66 @@
+.container {
+  width: 100%;
+  height: 100%;
+  background-color: #282828;
+  color: var(--color-gray);
+  overflow-y: auto;
+  border-right: 1px solid var(--color-shadow);
+  font-size: 0.75em;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  padding-block: 0.5em;
+  padding-inline: 0.5em;
+  font-weight: bold;
+  font-size: 0.85em;
+  color: var(--color-status);
+  background-color: rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 0;
+}
+
+.list {
+  list-style: none;
+  padding-block: 0.25em;
+  margin: 0;
+  flex-grow: 1;
+}
+
+.item {
+  padding-block: 0.5em;
+  padding-inline: 0.75em;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  line-height: 1.5;
+}
+
+.item:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--color-text-white);
+}
+
+.isDirectory {
+  color: #a89984;
+}
+
+.empty {
+  padding-block: 2em;
+  padding-inline: 2em;
+  text-align: center;
+  font-size: 0.85em;
+  color: #666;
+  cursor: pointer;
+}
+
+.empty:hover {
+  color: var(--color-gray);
+}
